@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="BTC-密码学原理和BTC-数据结构SHA256（secure hash algorithm）具有三个性质：  collision resistance————抗碰撞性 这个算法无法被证明 只可以在长时间的实践中证实，因为源文件可以是真正意义上的无数种，而哈希之后得到的哈希值一定会有穷尽，所以数学方法无法证明。 这个算法不一定一直有效">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BTC-密码学原理和BTC-数据结构">
+<meta property="og:url" content="http://example.com/2023/06/26/%E5%8C%BA%E5%9D%97%E9%93%BE1_2/index.html">
+<meta property="og:site_name" content="枫林晚">
+<meta property="og:description" content="BTC-密码学原理和BTC-数据结构SHA256（secure hash algorithm）具有三个性质：  collision resistance————抗碰撞性 这个算法无法被证明 只可以在长时间的实践中证实，因为源文件可以是真正意义上的无数种，而哈希之后得到的哈希值一定会有穷尽，所以数学方法无法证明。 这个算法不一定一直有效">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-06-26T07:02:26.000Z">
+<meta property="article:modified_time" content="2023-06-26T07:07:51.349Z">
+<meta property="article:author" content="baymax">
+<meta property="article:tag" content="区块链">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/06/26/%E5%8C%BA%E5%9D%97%E9%93%BE1_2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>BTC-密码学原理和BTC-数据结构 | 枫林晚</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">枫林晚</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="about fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-书籍">
+
+    <a href="/book/" rel="section"><i class="book fa-fw"></i>书籍</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/26/%E5%8C%BA%E5%9D%97%E9%93%BE1_2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar7.jpg">
+      <meta itemprop="name" content="baymax">
+      <meta itemprop="description" content="我还是更喜欢看风景">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="枫林晚">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          BTC-密码学原理和BTC-数据结构
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-06-26 15:02:26 / 修改时间：15:07:51" itemprop="dateCreated datePublished" datetime="2023-06-26T15:02:26+08:00">2023-06-26</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="BTC-密码学原理和BTC-数据结构"><a href="#BTC-密码学原理和BTC-数据结构" class="headerlink" title="BTC-密码学原理和BTC-数据结构"></a>BTC-密码学原理和BTC-数据结构</h1><h3 id="SHA256（secure-hash-algorithm）"><a href="#SHA256（secure-hash-algorithm）" class="headerlink" title="SHA256（secure hash algorithm）"></a>SHA256（secure hash algorithm）</h3><p>具有三个性质：</p>
+<ul>
+<li>collision resistance————抗碰撞性<ol>
+<li>这个算法无法被证明<br> 只可以在长时间的实践中证实，因为源文件可以是真正意义上的无数种，而哈希之后得到的哈希值一定会有穷尽，所以数学方法无法证明。</li>
+<li>这个算法不一定一直有效 <span id="more"></span>
+ MD5就是一个例子，可以人为制造哈希碰撞</li>
+<li>作用就是检验消息是否被篡改，如果源文件改动，哈希值会发生不可预知的变化。</li>
+</ol>
+</li>
+<li>hiding——哈希函数本身制作过程不可逆<ol>
+<li>X的取值范围一定要大且平均，不然通过简单的穷举就可以得到哈希值进行比对，哈希值存在的意义就被削弱了。</li>
+<li><strong>作用：</strong> 不可逆得到的结果使得H(x)可以作为数据进行公布而其中的X不会被人得知。适用于不能提前公开的某种结果，比如像预测第二天的股票，先用信封存在第三方公平机构，第二天收盘再打开，观察预测结果是否正确。</li>
+</ol>
+</li>
+<li>puzzle friendly————要想得到一个想要的哈希值，就必须需要很大的重复工作来计算出所需要的哈希值。<ol>
+<li>挖矿过程本身就是再求一个特定区域内的哈希值，而这个特性的存在使得工作量证明机制更加好用。</li>
+<li>挖矿本身计算量非常的高，验证确实非常简单，只需要计算一次哈希值看是否符合条件。</li>
+<li><strong>作用：增强pow，简化验证</strong></li>
+</ol>
+</li>
+</ul>
+<h3 id="开户"><a href="#开户" class="headerlink" title="开户"></a>开户</h3><p>比特币是去中性化的，没有银行类的机构。</p>
+<p><strong>开户就是建立一个公钥和私钥的对（public key,private key）</strong></p>
+<ul>
+<li>非对称的加密体系(asymmetric encryption algorithm)<ol>
+<li><p>加密用的是公钥，解密用的是私钥。<br>  a给b发消息，a要用b的公钥对内容进行加密，b用自己的私钥进行解密。（公钥是账户，私钥是密码）</p>
+</li>
+<li><p>encyption key：加密钥匙<br>比特币加密货币是不加密的。 <strong>签名</strong>用的是自己的私钥，需要有我的公钥的人拿着公钥去进行验证。两个人产生同样的公私钥对的概率，比地球爆炸的概率还要小。</p>
+</li>
+<li><p>一定要选择好的随机元：不然容易泄露私钥。</p>
+</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">H</span>(biock header)&lt;=target <span class="comment">//</span></span><br></pre></td></tr></table></figure>
+<h2 id="比特币的数据结构"><a href="#比特币的数据结构" class="headerlink" title="比特币的数据结构"></a>比特币的数据结构</h2><h3 id="哈希指针"><a href="#哈希指针" class="headerlink" title="哈希指针"></a>哈希指针</h3><p>hash pointers 哈希指针，存放结构体的初始位置和hash值，检验是否被篡改。</p>
+<blockquote>
+<p>区块链和普通的链表的区别，用哈希指针代替了普通的指针。<br>创世纪块-genesis block<br>最近区块-most recent block</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[]&lt;-[<span class="built_in">H</span>(x)]&lt;-[<span class="built_in">H</span>(x)]&lt;-h[]</span><br></pre></td></tr></table></figure>
+<p>哈希指针是把前面区块的所有东西包括前一个h[??]全部包装。<br>最后我们有一个h(),即block header,观察最后的h(),是否是我们存的，如果相同，则过程没有经过篡改。</p>
+<h3 id="哈希二叉树"><a href="#哈希二叉树" class="headerlink" title="哈希二叉树"></a>哈希二叉树</h3><h4 id="相应的专业术语"><a href="#相应的专业术语" class="headerlink" title="相应的专业术语"></a>相应的专业术语</h4><pre><code>merkle tree  哈希二叉树（树状区块链）
+binary tree  二叉树
+data blocks  叶子节点,是其他节点是hash指针，
+root hash    根哈希值
+block header 存hash值
+block body 存的是交易列表
+</code></pre>
+<h3 id="merkle-proof"><a href="#merkle-proof" class="headerlink" title="merkle proof"></a>merkle proof</h3><ul>
+<li>Merkle proof是一种验证Blockchain中交易是否有效的方法。</li>
+<li>它是基于Merkle树的。Merkle 树是一种数据结构，它可以让某个事务或数据块的状态依赖于所有其前面数据块的状态，从而创建区块链。</li>
+<li>在Merkle树中，每个叶节点表示一个数据块，而非叶子节点表示两个或更多个子节点的数字更改链接。在Blockchain中，交易数据将存储在叶节点中，而<strong>交易ID</strong>将存储在非叶子节点中（block body）。</li>
+<li>Merkle proof可以验证某个交易在区块链中的存在和有效性，而无需下载整个区块链。Merkle proof的核心是使用哈希值，以证明数据的完整性。具体来讲，Merkle proof从根（root）哈希值开始，向下遍历到叶子哈希值，验证交易是否包含在区块中。Merkle proof还可以检查交易是否已被修改或删除。</li>
+<li>由于Merkle proof可以节省大量的存储和计算资源，因此它被广泛用于区块链技术中的各种应用场景。 </li>
+<li>最上边的的hash值与block header相同就验证了交易的真实性。</li>
+</ul>
+<h3 id="proof-of-membership"><a href="#proof-of-membership" class="headerlink" title="proof of membership"></a>proof of membership</h3><pre><code> proof of includion//包含证明
+</code></pre>
+<ul>
+<li>Proof of inclusion（包含证明）通常是指在一个数据结构中，证明一个元素是否存在于该结构中。</li>
+<li>通常情况下，这个数据结构是一个树形结构，被称为Merkle树。在Merkle树中，不同的节点包含了子节点的哈希值，而叶子节点则包含了原始数据（例如交易数据）的哈希值。通过在节点之间跳跃，我们可以构建一个哈希链来证明根哈希值的有效性，从而验证特定数据是否存在于Merkle树中。</li>
+<li>因为证明只需要访问 <strong>O(log n)</strong> 个节点，不管Merkle树中有多少个叶子节点，所以包含证明可以非常高效地进行。 在区块链中，Merkle树和包含证明被广泛用于验证交易是否真实、存在和未被篡改。</li>
+</ul>
+<h3 id="proof-of-non-membership"><a href="#proof-of-non-membership" class="headerlink" title="proof of  non-membership"></a>proof of  non-membership</h3><ul>
+<li>如何直接证明？<strong>没有什么好办法！</strong> 只能暴力！</li>
+<li>但是我们可以设置规定：hash按照顺序存放。</li>
+<li><strong>方法：</strong> 建立sorted Merkle tree（按照hash排好序的哈系树）。找到该目标H()应该在的位置，然后找到根节点，对应位置的H()找到头节点和block header相同，证明没有篡改过，也就证明，交易不存在。</li>
+<li>循环依赖不能运用哈希指针。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+      
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag"># 区块链</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/06/24/%E4%BD%BF%E7%94%A8git%E5%88%86%E6%94%AF%E4%BF%9D%E5%AD%98hexo%E6%BA%90%E7%A0%81%E5%88%B0github/" rel="prev" title="使用git分支保存hexo源码到github">
+      <i class="fa fa-chevron-left"></i> 使用git分支保存hexo源码到github
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#BTC-%E5%AF%86%E7%A0%81%E5%AD%A6%E5%8E%9F%E7%90%86%E5%92%8CBTC-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">BTC-密码学原理和BTC-数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SHA256%EF%BC%88secure-hash-algorithm%EF%BC%89"><span class="nav-number">1.0.1.</span> <span class="nav-text">SHA256（secure hash algorithm）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E6%88%B7"><span class="nav-number">1.0.2.</span> <span class="nav-text">开户</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AF%94%E7%89%B9%E5%B8%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">比特币的数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E6%8C%87%E9%92%88"><span class="nav-number">1.1.1.</span> <span class="nav-text">哈希指针</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="nav-number">1.1.2.</span> <span class="nav-text">哈希二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B8%E5%BA%94%E7%9A%84%E4%B8%93%E4%B8%9A%E6%9C%AF%E8%AF%AD"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">相应的专业术语</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#merkle-proof"><span class="nav-number">1.1.3.</span> <span class="nav-text">merkle proof</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#proof-of-membership"><span class="nav-number">1.1.4.</span> <span class="nav-text">proof of membership</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#proof-of-non-membership"><span class="nav-number">1.1.5.</span> <span class="nav-text">proof of  non-membership</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="baymax"
+      src="/images/avatar7.jpg">
+  <p class="site-author-name" itemprop="name">baymax</p>
+  <div class="site-description" itemprop="description">我还是更喜欢看风景</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">baymax</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">3k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+</body>
+</html>
