@@ -22,17 +22,23 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="我还是更喜欢看风景">
-<meta property="og:type" content="website">
-<meta property="og:title" content="枫林晚">
-<meta property="og:url" content="http://example.com/archives/2022/index.html">
+  <meta name="description" content="BTC-实现基于比特币的账本模式（transaction-based ledger） UTXO的数据结构：（Unspent Transaction Output）没花出去钱，在UTXO里。  要他干嘛？为了检测double standing（花两次）。想要花掉的币只有在UTXO中才是合法的，你花出去的币，不在UTXO中。  总的输入&#x3D;总的输出（total inputs略大于等于total">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BTC-实现">
+<meta property="og:url" content="http://example.com/2023/06/26/%E5%8C%BA%E5%9D%97%E9%93%BE4/index.html">
 <meta property="og:site_name" content="枫林晚">
-<meta property="og:description" content="我还是更喜欢看风景">
+<meta property="og:description" content="BTC-实现基于比特币的账本模式（transaction-based ledger） UTXO的数据结构：（Unspent Transaction Output）没花出去钱，在UTXO里。  要他干嘛？为了检测double standing（花两次）。想要花掉的币只有在UTXO中才是合法的，你花出去的币，不在UTXO中。  总的输入&#x3D;总的输出（total inputs略大于等于total">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2023/06/26/pCUzf8P.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2023/06/26/pCaSdaj.jpg">
+<meta property="article:published_time" content="2023-06-26T13:30:26.000Z">
+<meta property="article:modified_time" content="2023-06-26T14:22:24.892Z">
 <meta property="article:author" content="baymax">
+<meta property="article:tag" content="区块链">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2023/06/26/pCUzf8P.jpg">
 
-<link rel="canonical" href="http://example.com/archives/2022/">
+<link rel="canonical" href="http://example.com/2023/06/26/%E5%8C%BA%E5%9D%97%E9%93%BE4/">
 
 
 <script id="page-configurations">
@@ -40,12 +46,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>归档 | 枫林晚</title>
+  <title>BTC-实现 | 枫林晚</title>
   
 
 
@@ -168,50 +174,123 @@
         <div class="content-wrap">
           
 
-          <div class="content archive">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 7 篇日志。 继续努力。</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/26/%E5%8C%BA%E5%9D%97%E9%93%BE4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar7.jpg">
+      <meta itemprop="name" content="baymax">
+      <meta itemprop="description" content="我还是更喜欢看风景">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="枫林晚">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          BTC-实现
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-06-26 21:30:26 / 修改时间：22:22:24" itemprop="dateCreated datePublished" datetime="2023-06-26T21:30:26+08:00">2023-06-26</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2022</span>
+        <h2 id="BTC-实现"><a href="#BTC-实现" class="headerlink" title="BTC-实现"></a>BTC-实现</h2><h3 id="基于比特币的账本模式（transaction-based-ledger）"><a href="#基于比特币的账本模式（transaction-based-ledger）" class="headerlink" title="基于比特币的账本模式（transaction-based ledger）"></a>基于比特币的账本模式（transaction-based ledger）</h3><ul>
+<li><p>UTXO的数据结构：（Unspent Transaction Output）没花出去钱，在UTXO里。</p>
+</li>
+<li><p>要他干嘛？为了检测double standing（花两次）。想要花掉的币只有在UTXO中才是合法的，你花出去的币，不在UTXO中。</p>
+</li>
+<li><p>总的输入&#x3D;总的输出（total inputs略大于等于total outputs）交易费的存在（transaction fee  0.001BTC）</p>
+</li>
+<li><p>21万区块 X 10分钟一次&#x2F;60分钟&#x2F;24小时&#x2F;365天&#x3D;4年，四年砍半 </p>
+<span id="more"></span></li>
+<li><p>account-based ledger（以太坊）————一种区块链账本<br>Account-based ledger是一种区块链账本，以太坊就是其中之一。它通过记录账户之间的交易来实现去中心化记账。以太坊使用了基于账户的模型：每个用户有一个唯一的账户地址，并且账户可以存储以太币或其他代币。所有交易都被广播到整个网络中，并按照时间顺序添加到区块链中。每个区块将交易打包在一起以确保交易的顺序和完成性，然后通过加密和验证的方式链接到前一个区块一个链，这个过程称为挖矿。账户余额和交易历史记录都存储在账户状态中，这些都是不可篡改的，并且由所有节点共享。这使得以太坊成为一个安全、透明且可靠的分布式记账系统。<br><a target="_blank" rel="noopener" href="https://imgse.com/i/pCUzf8P"><img src="https://s1.ax1x.com/2023/06/26/pCUzf8P.jpg" alt="pCUzf8P.jpg"></a></p>
+<ol>
+<li>当前使用的比特协议版本号（无法更改）</li>
+<li>前一个块的块头哈希值。（无法更改）</li>
+<li>merkle tree的根哈希值。（可以更改，更改Coin base，没人管，“终于挖到了，切挖且珍惜”）</li>
+<li>区块产生的时间，可以调整，4个字节</li>
+<li>挖矿用的目标阈值编码后的版本（4个字节），只能按照协议中的要求定期进行调整。</li>
+<li>nonce（见前一个博客）<blockquote>
+<p>&#x2F;&#x2F;<br> <a target="_blank" rel="noopener" href="https://imgse.com/i/pCaSdaj"><img src="https://s1.ax1x.com/2023/06/26/pCaSdaj.jpg" alt="pCaSdaj.jpg"></a></p>
+</blockquote>
+</li>
+</ol>
+<p>H（）只需要block header里的内容就可以了，已经能保证内容不会被篡改。<br>block body，如图中的tx，不用打包进行哈希。</p>
+<h3 id="挖矿的概率问题"><a href="#挖矿的概率问题" class="headerlink" title="挖矿的概率问题"></a>挖矿的概率问题</h3><ul>
+<li>Bernoulli trial:a random experiment with binary outcome<br>Bernoulli试验（Bernoulli trial）指仅有两种结果的随机试验，例如抛一枚硬币或者投一颗骰子的点数是偶数或奇数等。常用符号X表示此试验结果为成功（success）的次数，而此试验结果为失败的次数则为n-X。Bernoulli试验经常用来研究二项分布。 </li>
+<li>Bernoulli process：a sequence of independence Bernoulli trials （多个Bernoulli trial得到的）具有无记忆性</li>
+</ul>
+</li>
+</ul>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
+      
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-03-22T21:11:28+08:00"
-              content="2022-03-22">
-          03-22
-        </time>
-      </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/03/22/%E5%88%B6%E4%BD%9C%E5%8D%9A%E5%AE%A2%E5%92%8Cpush%E5%BA%93%E7%9A%84%E4%B8%80%E4%BA%9B%E6%93%8D%E4%BD%9C/" itemprop="url">
-            <span itemprop="name">关于制作博客的部分操作</span>
-          </a>
-      </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" rel="tag"># 区块链</a>
+          </div>
 
-    </header>
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/06/26/%E5%8C%BA%E5%9D%97%E9%93%BE3/" rel="prev" title="BTC-协议">
+      <i class="fa fa-chevron-left"></i> BTC-协议
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
   </article>
-
-
-    </div>
-  </div>
   
   
-  
-
   
 
 
@@ -264,6 +343,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#BTC-%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.</span> <span class="nav-text">BTC-实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E6%AF%94%E7%89%B9%E5%B8%81%E7%9A%84%E8%B4%A6%E6%9C%AC%E6%A8%A1%E5%BC%8F%EF%BC%88transaction-based-ledger%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">基于比特币的账本模式（transaction-based ledger）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%96%E7%9F%BF%E7%9A%84%E6%A6%82%E7%8E%87%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.</span> <span class="nav-text">挖矿的概率问题</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
