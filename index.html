@@ -174,6 +174,79 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/07/07/%E6%8D%A2%E4%BA%86%E4%B8%80%E4%B8%AA%E6%96%B0%E9%94%AE%E7%9B%98%E7%BB%83%E7%BB%83%E6%89%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar7.jpg">
+      <meta itemprop="name" content="baymax">
+      <meta itemprop="description" content="我还是更喜欢看风景">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="枫林晚">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/07/07/%E6%8D%A2%E4%BA%86%E4%B8%80%E4%B8%AA%E6%96%B0%E9%94%AE%E7%9B%98%E7%BB%83%E7%BB%83%E6%89%8B/" class="post-title-link" itemprop="url">今天有一点热</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-07-07 15:29:26 / 修改时间：16:54:04" itemprop="dateCreated datePublished" datetime="2023-07-07T15:29:26+08:00">2023-07-07</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="这周总结"><a href="#这周总结" class="headerlink" title="这周总结"></a>这周总结</h3><p>  今天是我第一次写总结，感性而发，随便说点什么吧。<br>  上周考完了jw和jsjtxx真的整个人都木了，对我来说有点难，确实有点难，考jw的时候，协议太多了， 又是英文。所以串了，忘了到底是什莫意思。<br>  考完试也不是完事大吉了，毕竟考研还是要考的，还得饱受折磨。计算机图形学考了几个简答题，几个解析，几个应用题。这个更加抽象，全是论述题，给了我一种考文科的错觉，而且有的题。。。不说什么了。三种显示器的工作原理，液晶和等离子显示器的工作原理我该怎么答，推导视口与窗口的放缩关系，。还有以s开头的实验算法的工作原理，就是带线性插值的那个公式。透视投影的规范化如何判断遮挡关系，裁剪窗口的实验原理。说多了都是累，奥对了，还有一个边表，一个图形的那个，靠前的那一个。不过算上平时分，应该还行，不至于过不了，自己答得不够精细，得多少分就交给老师了。就这样吧。当然也不是全是坏消息，今天区块链的实训就已经结束了，写的还不错，应该是第一个写完的，为了准备答辩就准备的充分了点。应该是第五六个去答辩的，老师问的很细，包括difficulty的实验原理，比如difficulty每增加1，挖矿的平均时间增大约是多少倍？正确答案是16倍，因为得到的哈希值是十六进制数吗！每增加1，挖矿平均时间变为原来的16倍。还有私钥传到网上是不安全的，所以一般是把数据发到本地，然后和自己的私钥形成签名。答辩的时候，当时是只知道交易和自己的私钥通过sha256函数就会生成相应的哈希值。但是具体的还是不知道，比如，数据是直接与私钥连接在一起？上传的时候，为了保密应该用二维码，忘了当时老师说的是什么了，应该是签名。接着就是重新签名的思路，应该是先判断是否满足签名的要求，比如from的内容应该是自己公钥的时候才能重新签名，如果不是自己的公钥，不能签名。因为你不知道私钥怎末进行签名？这是一个问题。我们要维护区块链UTXO数据结构，我们用的是map数组进行的模拟，“map数组是 javaScapt中最简单的数据结构了， 如果你不想用，只能用最原始的数组了，”这是老师对于其他组员的说法，确实有点绷不住，被老师嘲笑了。维护账本需要设置在挖矿键上，键和键值对所对应的就是账户和余额，通过备份的map数据结构进行加减判断交易内容是否违法，就是转账金额大于余额，这时屏幕应该是橙色的，经过修改如果不违法就返回原来的颜色。这里用的函数是在网上搜的，我也不知道是不是内嵌的css函数还是其他的，改天有时间一定要好好查查——background.style. backgroundcolor(“orange”)。二维码是怎样生成的，听别人说好像是第三方机构，第三方机构就真的安全吗？比特币哎，直接卷钱跑了，你能有什么办法，这个问题先保留着，具体情况再说。我精心准备的肖臻老师的上课的笔记答辩全都没有用上，有点难受。女巫攻击，分叉攻击，双花攻击是干什么的不必difficulty高级多了。实训结束了，老师最后的祝福确实令人印象深刻。令人深思，选择工作还是选择考研。走哪条路？是该好好考虑一下了。天下没有不散的宴席，大学的课程再没有这个老师的身影。想想还是令人黯然神伤。我本来也不是这样的人，气氛已经到这里了，我也就把自己带入了。低头一看电脑的日期 ，已经7月了，离十二月是那么近。不管是有女朋友的还是没有女朋友的，都应该想想，怎样为了她而努力了。说句不中听的，大学情侣八九十吧都是会分的，我对此深信不疑。总觉得大学里投入过多的时间维持感情会很累。当然这句话只代表我自己私人的观点。分了之后你就会发现，除了生活的艰辛之外，你什么都没有。到时候想想混下来大学生活，到底学会了什么，教会了自己谋生的手段了吗，有人说，我家里有矿，那当我没说，你现在就可以把钞票扔到我的脸上了，我发誓，我一定会捡起来。话题到此结束，来谈谈别的。每天十几个小时的学习真的不会累吗？我的师哥说，当你真正知道自己想要什么的时候，你就会坚持下来，我在努力改变自己的习惯。我尝试着 做题的时候不听歌，平时不玩游戏，仅吃饭的时候看看那种不咸不淡的小说。这几天，你尝试一下，每天晚上你都会为一天的充实而感到高兴。不充实的一天，到了晚上你就会想明天一定要好好学习。这可以作为判断是否到达你的极限的评判标准。今天收拾了一下实验室，获得了两件肖老师的衣服，本着有便宜不占，王八蛋的史诗级理解，我就把两件 卫衣给没收了，哈哈，心情不错。到了最后了，再不写完就要占用学习的时间（真假，就是没有想说的了）， 考完试的一周会浮躁，想要好好玩一玩，但是，我们要把控好自己，积极投身于学习事业，不干让自己后悔的事情。我的语文其实并不好，写了这些也就是我的极限了（同学送了个键盘练练手），不要喷我，嗯就这样，下次见。         </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/27/%E5%8C%BA%E5%9D%97%E9%93%BE6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -277,10 +350,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-06-27 13:30:26 / 修改时间：16:26:08" itemprop="dateCreated datePublished" datetime="2023-06-27T13:30:26+08:00">2023-06-27</time>
+              <time title="创建时间：2023-06-27 13:30:26" itemprop="dateCreated datePublished" datetime="2023-06-27T13:30:26+08:00">2023-06-27</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-06-28 07:59:50" itemprop="dateModified" datetime="2023-06-28T07:59:50+08:00">2023-06-28</time>
+              </span>
 
           <br>
             <span class="post-meta-item" title="本文字数">
@@ -315,7 +394,6 @@
 <li>挖矿难度（difficulty）与target成反比。difficulty&#x3D;difficulty_1_target&#x2F;target;</li>
 <li>挖矿难度是为了保持出块速度保持稳定。</li>
 <li>如何调整挖矿难度？2016个区块，2周调整一次，调整公式：target&#x3D;target*actual time&#x2F;expexted time;</li>
-<li></li>
 </ul>
 
       
@@ -989,7 +1067,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1033,13 +1111,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">7k</span>
+    <span title="站点总字数">9k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">6 分钟</span>
+    <span title="站点阅读时长">8 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
